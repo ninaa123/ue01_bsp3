@@ -160,10 +160,10 @@ int main(int argc, char** argv)
     
     rightanswers_pp=fopen("rightanswers_pp.txt","w");
     fprintf(rightanswers_pp,"number of right answers per participant:\n");
-    for(nFile=1; nFile<((unsigned int)argc); ++nFile) 
+    for(int i = 0; i < numParticipants; ++i) 
     {
-        fprintf(rightanswers_pp,"participant %c : %d \n",nFile+'a'-1, numberRightAnswersPerson(argv[nFile])); //write right answer per participant in file
-        r[nFile]=numberRightAnswersPerson(argv[nFile]);
+        r[i]=numberRightAnswersPerson(argv[i+1]);
+        fprintf(rightanswers_pp,"participant %c : %d \n", i+1, r[i]); //write right answer per participant in file
     }
     fclose(rightanswers_pp);
     printf("\n");
