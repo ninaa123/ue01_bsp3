@@ -8,14 +8,16 @@
 #include <stdlib.h>     // error handling
 #include <stdio.h>      // file io
 #include <math.h>       // sqrt()
+#include <string.h>
 
 #define NQUESTIONS 20   ///< Number of questions
 
 const int answers[20]={2,4,2,3,3,1,4,1,2,1,3,1,1,4,4,1,1,4,2,3};
 
+static unsigned int randomNumber=2;
+
 unsigned int myrand() 
 {
-    static unsigned int randomNumber=2;
     randomNumber = ((7*randomNumber+4)%17);
     return randomNumber;
 }
@@ -124,20 +126,25 @@ int cmpIntAsc(const void * a, const void * b)
 double calcMedian(int *r, int n)
 {
     int *a = (int *)malloc(n * sizeof(int));
+    double m;
     
-    memcpy(a,r,n);
+    memcpy(a,r,n*sizeof(int));
 
     qsort(a,n,sizeof(int),cmpIntAsc); //sorts array, zB a[0],a[1] -> a und b in cmp-funktion
     
-    double m;
-
     if(n%2!=0)
     {
-        m=(double)r[n/2.0];
+        m=(double)r[n/2];
     }
     else
     {
-        m=(double)r[n/2.0+1];
+        m=(double)(r[n/2]+r[n/2+1])/2.0;
+    }
+    
+    if(a!=0)
+    {
+        free(a);
+        a=0;
     }
     
     return m;
@@ -150,7 +157,7 @@ int main(int argc, char** argv)
     // DECLARATIONS
     unsigned int nFile;                     // file Counters
     
-    int numParticipants = argc - 1;
+    int numParticipants=argc-1;
     
     // CRUDE ARGUMENT CHECKING
     if(argc<2) fputs("Error: No argument supplied!\n", stderr);
@@ -166,12 +173,12 @@ int main(int argc, char** argv)
         return -1;
     }
     
-    f=fopen("f.txt","w");
+    f=fopen("rightanswers_pp.txt","w");
     fprintf(f,"number of right answers per participant:\n");
-    for(int i = 0; i < numParticipants; ++i) 
+    for(int i=0;i<numParticipants;++i) 
     {
         r[i]=numberRightAnswersPerson(argv[i+1]);
-        fprintf(f,"participant %c : %d \n", i+1, r[i]); //write right answer per participant in file
+        fprintf(f,"participant %d : %d \n", i+1, r[i]); //write right answer per participant in file
     }
     fclose(f);        
         
@@ -197,7 +204,7 @@ int main(int argc, char** argv)
     // 3b) calculate right answers of all per question
     ///////////////////////////////////////////////////
     
-    FILE *rightanswers_all;
+    FILE *f2;
     
     int sumRightAnswers[NQUESTIONS];
     for(int i=0;i<NQUESTIONS;++i)
@@ -205,11 +212,11 @@ int main(int argc, char** argv)
         sumRightAnswers[i]=0;
     }
     
-    rightanswers_all=fopen("rightanswers_all.txt","w");
-    fprintf(rightanswers_all,"number of all right answers per question:\n");
-    for(nFile=1; nFile<((unsigned int)argc); ++nFile) 
+    f2=fopen("rightanswers_all.txt","w");
+    fprintf(f2,"number of all right answers per question:\n");
+    for(int i=0;i<numParticipants; ++i) 
     {
-        if (numberRightAnswersAllPersons(argv[nFile],sumRightAnswers)!=0)
+        if (numberRightAnswersAllPersons(argv[i+1],sumRightAnswers)!=0)
         {
             perror("Error reading file");
         }
@@ -217,23 +224,9 @@ int main(int argc, char** argv)
     
     for(int i=0;i<NQUESTIONS;++i)
     {
-        fprintf(rightanswers_all,"%c : %d\n",'A'+i,sumRightAnswers[i]);
+        fprintf(f2,"%c : %d\n",'A'+i,sumRightAnswers[i]);
     }
-    fclose(rightanswers_all);
-    
-    int sum2=0;
-    for(int i=0;i<(NQUESTIONS);++i)
-    {
-        sum2+=sumRightAnswers[i];
-    }
-    printf("%d\n",sum2);
-    
-    int sum3=0;
-    for(int i=1;i<(NQUESTIONS+1);++i)
-    {
-        sum3+=sumRightAnswers[i];
-    }
-    printf("%d\n",sum3);
+    fclose(f2);
     
     //average how many persons answered a single question right
 
@@ -246,8 +239,8 @@ int main(int argc, char** argv)
     //median
     printf("median: %lf\n",calcMedian(sumRightAnswers,NQUESTIONS));
     
-    printf("%d ",myrand());
-    printf("%d ",myrand());
+    printf("%d ",myrand()%4+1);
+    printf("%d ",myrand()%4+1);
     
     if(r!=0)
     {

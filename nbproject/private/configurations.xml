@@ -25,8 +25,19 @@
       <runprofile version="9">
         <runcommandpicklist>
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}"
+1b504d3328e16fdf281d1fb9516dd90b.txt
+1ca31fb439fe54c9f5f9346e94f5ceb3.txt
+3d4a261db60cdea58d65a401e1aca963.txt
+3f745aa6d83bf8daa36a345fd5140b47.txt
+19336f50b3a424b5ceaeaa08f88a95a6.txt
+a446b960b293741d14f3a11e25836df7.txt
+ade6dd2ba7d6e70ace51d56fdd93811b.txt
+db6a9d5fe1401f2bcda9a4fd6af4b8d2.txt
+e985f2f23177f76a29a734284a7c5b5e.txt</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" 1b504d3328e16fdf281d1fb9516dd90b.txt 1ca31fb439fe54c9f5f9346e94f5ceb3.txt 3d4a261db60cdea58d65a401e1aca963.txt 3f745aa6d83bf8daa36a345fd5140b47.txt 19336f50b3a424b5ceaeaa08f88a95a6.txt a446b960b293741d14f3a11e25836df7.txt ade6dd2ba7d6e70ace51d56fdd93811b.txt db6a9d5fe1401f2bcda9a4fd6af4b8d2.txt e985f2f23177f76a29a734284a7c5b5e.txt</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}"</runcommand>
+        <runcommand>"${OUTPUT_PATH}" 1b504d3328e16fdf281d1fb9516dd90b.txt 1ca31fb439fe54c9f5f9346e94f5ceb3.txt 3d4a261db60cdea58d65a401e1aca963.txt 3f745aa6d83bf8daa36a345fd5140b47.txt 19336f50b3a424b5ceaeaa08f88a95a6.txt a446b960b293741d14f3a11e25836df7.txt ade6dd2ba7d6e70ace51d56fdd93811b.txt db6a9d5fe1401f2bcda9a4fd6af4b8d2.txt e985f2f23177f76a29a734284a7c5b5e.txt</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>
