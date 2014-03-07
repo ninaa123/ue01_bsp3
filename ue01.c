@@ -129,13 +129,13 @@ double calcMedian(int *r, int n)
 
     qsort(a,n,sizeof(int),cmpIntAsc); //sorts array, zB a[0],a[1] -> a und b in cmp-funktion
     
-    if(n%2!=0)
+    if((n%2)!=0)
     {
-        m=((double)r[n/2]);
+        m=(double)a[n/2];
     }
     else
     {
-        m=(double)((r[n/2]+r[n/2+1])/2.0);
+        m=(double)((a[n/2]+a[n/2-1])/2.0);
     }
     
     if(a!=0)
@@ -195,7 +195,6 @@ int main(int argc, char** argv)
     ///////////////////////////////////////////////////////////////////
     // 3c)1) average value, deviation value, median
     ///////////////////////////////////////////////////////////////////
-
     
     //average
     
