@@ -10,7 +10,6 @@
 #include <math.h>       // sqrt()
 
 #define NQUESTIONS 20   ///< Number of questions
-#define NSTUDENTS 9     ///< Number of students
 
 const int answers[20]={2,4,2,3,3,1,4,1,2,1,3,1,1,4,4,1,1,4,2,3};
 
@@ -155,19 +154,22 @@ int main(int argc, char** argv)
     ///////////////////////////////////////////////////////////////////
     // 3a) how many right answered question a single participant have? 
     ///////////////////////////////////////////////////////////////////
-    FILE *rightanswers_pp;
+    FILE *f;
     int *r=(int *)malloc(numParticipants*sizeof(int)); 
+    if(r==0)
+    {
+        fputs("Malloc returned null!\n",stderr);
+        return -1;
+    }
     
-    rightanswers_pp=fopen("rightanswers_pp.txt","w");
-    fprintf(rightanswers_pp,"number of right answers per participant:\n");
+    f=fopen("f.txt","w");
+    fprintf(f,"number of right answers per participant:\n");
     for(int i = 0; i < numParticipants; ++i) 
     {
         r[i]=numberRightAnswersPerson(argv[i+1]);
-        fprintf(rightanswers_pp,"participant %c : %d \n", i+1, r[i]); //write right answer per participant in file
+        fprintf(f,"participant %c : %d \n", i+1, r[i]); //write right answer per participant in file
     }
-    fclose(rightanswers_pp);
-    printf("\n");
-        
+    fclose(f);        
         
     ///////////////////////////////////////////////////////////////////
     // 3c)1) average value, deviation value, median
@@ -175,22 +177,16 @@ int main(int argc, char** argv)
 
     
     //average
-    int sum=0;
-    for(int i=1;i<(NSTUDENTS+1);++i)
-    {
-        sum+=r[i];
-    }
-    printf("%d ",sum);
     
-    double av_pp=calcAverage(r,NSTUDENTS);
+    double rAvg=calcAverage(r,numParticipants);
     
-    printf("average how many right answered question per person %lf\n",av_pp);
+    printf("average how many right answered question per person %lf\n",rAvg);
     
     //standard deviation
-    printf("standard deviation: %lf\n",calcStandDev(av_pp,r,NSTUDENTS));
+    printf("standard deviation: %lf\n",calcStandDev(rAvg,r,numParticipants));
         
     //median
-    printf("median: %lf\n",calcMedian(r,NSTUDENTS));
+    printf("median: %lf\n",calcMedian(r,numParticipants));
     printf("\n");
     
     ///////////////////////////////////////////////////
@@ -249,7 +245,11 @@ int main(int argc, char** argv)
     printf("%d ",myrand());
     printf("%d ",myrand());
     
-    free(r);
+    if(r!=0)
+    {
+        free(r); 
+        r=0;
+    }
 
     return EXIT_SUCCESS;
 }
