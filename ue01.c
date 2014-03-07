@@ -87,27 +87,27 @@ int numberRightAnswersAllPersons(const char *filename, int *sumRightAnswers)
 }
 
 
-double calcAverage(int *r, int totalnumb)
+double calcAvg(int *r, int n)
 {
-    int sum_av=0;
+    int s=0;
     
-    for(int i=1;i<(totalnumb+1);++i)
+    for(int i=0;i<n;++i)
     {
-        sum_av+=r[i];
+        s+=r[i];
     }
-    return (double)sum_av/totalnumb;
+    return (double)s/n;
 }
 
 
-double calcStandDev(double av, int *r, int totalnumb)
+double calcStdDev(double avg, int *r, int n)
 {
-    double sum_stdev=0;
+    double s=0;
     
-    for(int i=1;i<(totalnumb+1);++i)
+    for(int i=1;i<(n+1);++i)
     {
-        sum_stdev+=(r[i]-av)*(r[i]-av);
+        s+=(r[i]-avg)*(r[i]-avg);
     }
-    return sqrt(sum_stdev/(totalnumb-1));
+    return sqrt(s/(n-1));
 }
 
 
@@ -178,12 +178,12 @@ int main(int argc, char** argv)
     
     //average
     
-    double rAvg=calcAverage(r,numParticipants);
+    double rAvg=calcAvg(r,numParticipants);
     
     printf("average how many right answered question per person %lf\n",rAvg);
     
     //standard deviation
-    printf("standard deviation: %lf\n",calcStandDev(rAvg,r,numParticipants));
+    printf("standard deviation: %lf\n",calcStdDev(rAvg,r,numParticipants));
         
     //median
     printf("median: %lf\n",calcMedian(r,numParticipants));
@@ -233,11 +233,11 @@ int main(int argc, char** argv)
     
     //average how many persons answered a single question right
 
-    double av_all=calcAverage(sumRightAnswers,NQUESTIONS);
+    double av_all=calcAvg(sumRightAnswers,NQUESTIONS);
     printf("average how many persons answered a single question right: %lf\n",av_all);
     
     //standard deviation
-    printf("standard deviation: %lf\n",calcStandDev(av_all,sumRightAnswers,NQUESTIONS));
+    printf("standard deviation: %lf\n",calcStdDev(av_all,sumRightAnswers,NQUESTIONS));
     
     //median
     printf("median: %lf\n",calcMedian(sumRightAnswers,NQUESTIONS));
