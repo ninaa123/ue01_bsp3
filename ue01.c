@@ -12,17 +12,14 @@
 
 #define NQUESTIONS 20   ///< Number of questions
 
-const int answers[20]={2,4,2,3,3,1,4,1,2,1,3,1,1,4,4,1,1,4,2,3};
-
-static unsigned int randomNumber=2;
-
 unsigned int myrand() 
 {
+    static unsigned int randomNumber=2;
     randomNumber = ((7*randomNumber+4)%17);
     return randomNumber;
 }
 
-int numberRightAnswersPerson(const char *filename)
+int numberRightAnswersPerson(const char *filename, int *answers)
 {
     FILE* fCurrent;                         // File Handle
     int cq=0;                                  // Buffers for file parsing
@@ -56,7 +53,7 @@ int numberRightAnswersPerson(const char *filename)
         return rightAnswersPerson;
 }
 
-int numberRightAnswersAllPersons(const char *filename, int *sumRightAnswers)
+int numberRightAnswersAllPersons(const char *filename, int *sumRightAnswers, int *answers)
 {
     FILE* fCurrent;                         // File Handle
     int cq=0;                                  // Buffers for file parsing
@@ -155,12 +152,25 @@ double calcMedian(int *r, int n)
 int main(int argc, char** argv) 
 {
     // DECLARATIONS
-    unsigned int nFile;                     // file Counters
     
     int numParticipants=argc-1;
     
+    int *answers=(int *)malloc(NQUESTIONS*sizeof(int)); 
+
+    if(answers==0)
+    {
+        fputs("Malloc (answers) returned null!\n",stderr);
+        return -1;
+    }
+    
     // CRUDE ARGUMENT CHECKING
     if(argc<2) fputs("Error: No argument supplied!\n", stderr);
+    
+    
+    for(int i=0;i<NQUESTIONS;++i)
+    {
+        answers[i]=(myrand()%4+1);
+    }
     
     ///////////////////////////////////////////////////////////////////
     // 3a) how many right answered question a single participant have? 
@@ -169,7 +179,7 @@ int main(int argc, char** argv)
     int *r=(int *)malloc(numParticipants*sizeof(int)); 
     if(r==0)
     {
-        fputs("Malloc returned null!\n",stderr);
+        fputs("Malloc (r) returned null!\n",stderr);
         return -1;
     }
     
@@ -177,7 +187,7 @@ int main(int argc, char** argv)
     fprintf(f,"number of right answers per participant:\n");
     for(int i=0;i<numParticipants;++i) 
     {
-        r[i]=numberRightAnswersPerson(argv[i+1]);
+        r[i]=numberRightAnswersPerson(argv[i+1], answers);
         fprintf(f,"participant %d : %d \n", i+1, r[i]); //write right answer per participant in file
     }
     fclose(f);        
@@ -216,7 +226,7 @@ int main(int argc, char** argv)
     fprintf(f2,"number of all right answers per question:\n");
     for(int i=0;i<numParticipants; ++i) 
     {
-        if (numberRightAnswersAllPersons(argv[i+1],sumRightAnswers)!=0)
+        if (numberRightAnswersAllPersons(argv[i+1],sumRightAnswers, answers)!=0)
         {
             perror("Error reading file");
         }
@@ -239,8 +249,16 @@ int main(int argc, char** argv)
     //median
     printf("median: %lf\n",calcMedian(sumRightAnswers,NQUESTIONS));
     
-    printf("%d ",myrand()%4+1);
-    printf("%d ",myrand()%4+1);
+    for(int i=0;i<NQUESTIONS;++i)
+    {
+        printf("%d ",myrand()%4+1);
+    }
+    
+    if(answers!=0)
+    {
+        free(answers);
+        answers=0;
+    }
     
     if(r!=0)
     {

@@ -1,10 +1,10 @@
 number of right answers per participant:
 participant 1 : 7 
 participant 2 : 18 
-participant 3 : 8 
+participant 3 : 6 
 participant 4 : 15 
-participant 5 : 11 
-participant 6 : 16 
-participant 7 : 15 
-participant 8 : 10 
-participant 9 : 16 
+participant 5 : 13 
+participant 6 : 15 
+participant 7 : 17 
+participant 8 : 12 
+participant 9 : 14 
