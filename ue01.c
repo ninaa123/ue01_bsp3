@@ -156,7 +156,7 @@ int main(int argc, char** argv)
     // 3a) how many right answered question a single participant have? 
     ///////////////////////////////////////////////////////////////////
     FILE *rightanswers_pp;
-    static int r[NSTUDENTS]; //dynamisch machen?
+    int *r=(int *)malloc(numParticipants*sizeof(int)); 
     
     rightanswers_pp=fopen("rightanswers_pp.txt","w");
     fprintf(rightanswers_pp,"number of right answers per participant:\n");
@@ -172,12 +172,6 @@ int main(int argc, char** argv)
     ///////////////////////////////////////////////////////////////////
     // 3c)1) average value, deviation value, median
     ///////////////////////////////////////////////////////////////////
-    
-    
-    for(nFile=1;nFile<((unsigned int)argc);++nFile) 
-    {
-        
-    }
 
     
     //average
@@ -254,6 +248,8 @@ int main(int argc, char** argv)
     
     printf("%d ",myrand());
     printf("%d ",myrand());
+    
+    free(r);
 
     return EXIT_SUCCESS;
 }
