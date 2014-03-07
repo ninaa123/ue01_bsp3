@@ -147,6 +147,8 @@ int main(int argc, char** argv)
     // DECLARATIONS
     unsigned int nFile;                     // file Counters
     
+    int numParticipants = argc - 1;
+    
     // CRUDE ARGUMENT CHECKING
     if(argc<2) fputs("Error: No argument supplied!\n", stderr);
     
