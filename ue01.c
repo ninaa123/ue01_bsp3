@@ -103,7 +103,7 @@ double calcStdDev(double avg, int *r, int n)
 {
     double s=0;
     
-    for(int i=1;i<(n+1);++i)
+    for(int i=0;i<n;++i)
     {
         s+=(r[i]-avg)*(r[i]-avg);
     }
@@ -121,22 +121,26 @@ int cmpIntAsc(const void * a, const void * b)
 }
 
 
-double calcMedian(int *r, int totalnumb)
+double calcMedian(int *r, int n)
 {
-    int *a = (int *)malloc(totalnumb * sizeof(int));
-    int *b = (int *)malloc(totalnumb * sizeof(int));
+    int *a = (int *)malloc(n * sizeof(int));
+    
+    memcpy(a,r,n);
 
-    qsort(r,totalnumb,sizeof(int),cmpIntAsc); //sorts array
+    qsort(a,n,sizeof(int),cmpIntAsc); //sorts array, zB a[0],a[1] -> a und b in cmp-funktion
+    
+    double m;
 
-    if((sizeof(r)/sizeof(r[0]))%2!=0)
+    if(n%2!=0)
     {
-        return r[(sizeof(r)/(2*sizeof(r[0])))];
+        m=(double)r[n/2.0];
     }
     else
     {
-        int k = (sizeof(r)/(2*sizeof(r[0])));
-        return (double) (r[k-1]+r[k])/2;
+        m=(double)r[n/2.0+1];
     }
+    
+    return m;
 }
 
 
