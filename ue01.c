@@ -131,11 +131,11 @@ double calcMedian(int *r, int n)
     
     if(n%2!=0)
     {
-        m=(double)r[n/2];
+        m=((double)r[n/2]);
     }
     else
     {
-        m=(double)(r[n/2]+r[n/2+1])/2.0;
+        m=(double)((r[n/2]+r[n/2+1])/2.0);
     }
     
     if(a!=0)
@@ -248,11 +248,6 @@ int main(int argc, char** argv)
     
     //median
     printf("median: %lf\n",calcMedian(sumRightAnswers,NQUESTIONS));
-    
-    for(int i=0;i<NQUESTIONS;++i)
-    {
-        printf("%d ",myrand()%4+1);
-    }
     
     if(answers!=0)
     {
